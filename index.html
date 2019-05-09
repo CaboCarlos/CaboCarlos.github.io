@@ -8,10 +8,12 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <style>
         #map {
-            width: 1207px;
+            width: 100%;
             height: 661px;
         }
         </style>
@@ -29,6 +31,7 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
         <script src="js/leaflet-search.js"></script>
         <script src="data/ConcejosAsturiasETRS89LimpioBueno_0.js"></script>
         <script src="data/VectorialParaQgis2Web2_1.js"></script>
@@ -71,25 +74,11 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">NATCODE</th>\
-                        <td>' + (feature.properties['NATCODE'] !== null ? Autolinker.link(String(feature.properties['NATCODE'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <th scope="row">Concejo</th>\
                         <td>' + (feature.properties['Concejo'] !== null ? Autolinker.link(String(feature.properties['Concejo'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>E_mean</strong><br />' + (feature.properties['E_mean'] !== null ? Autolinker.link(String(feature.properties['E_mean'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <td colspan="2">' + (feature.properties['E_min'] !== null ? Autolinker.link(String(feature.properties['E_min'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['E_max'] !== null ? Autolinker.link(String(feature.properties['E_max'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">PM_sum</th>\
-                        <td>' + (feature.properties['PM_sum'] !== null ? Autolinker.link(String(feature.properties['PM_sum'])) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -385,23 +374,26 @@
                 return L.circleMarker(latlng, style_VectorialParaQgis2Web2_1_0(feature));
             },
         });
+        var cluster_VectorialParaQgis2Web2_1 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_VectorialParaQgis2Web2_1.addLayer(layer_VectorialParaQgis2Web2_1);
+
         bounds_group.addLayer(layer_VectorialParaQgis2Web2_1);
-        map.addLayer(layer_VectorialParaQgis2Web2_1);
+        cluster_VectorialParaQgis2Web2_1.addTo(map);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'VectorialParaQgis2Web2<br /><table><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_00560.png" /></td><td>0,0 - 5,6</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_561121.png" /></td><td>5,6 - 11,2</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_1121682.png" /></td><td>11,2 - 16,8</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_1682243.png" /></td><td>16,8 - 22,4</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_2242804.png" /></td><td>22,4 - 28,0</td></tr></table>': layer_VectorialParaQgis2Web2_1,'ConcejosAsturiasETRS89LimpioBueno<br /><table><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_35160.png" /></td><td>-35 - 16</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_16681.png" /></td><td>16 - 68</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_681192.png" /></td><td>68 - 119</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_1191713.png" /></td><td>119 - 171</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_1712224.png" /></td><td>171 - 222</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_2222745.png" /></td><td>222 - 274</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_2743256.png" /></td><td>274 - 325</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_3253777.png" /></td><td>325 - 377</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_3774288.png" /></td><td>377 - 428</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_4284809.png" /></td><td>428 - 480</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_48053110.png" /></td><td>480 - 531</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_53158311.png" /></td><td>531 - 583</td></tr></table>': layer_ConcejosAsturiasETRS89LimpioBueno_0,}).addTo(map);
+        L.control.layers(baseMaps,{'VectorialParaQgis2Web2<br /><table><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_00560.png" /></td><td>0,0 - 5,6</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_561121.png" /></td><td>5,6 - 11,2</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_1121682.png" /></td><td>11,2 - 16,8</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_1682243.png" /></td><td>16,8 - 22,4</td></tr><tr><td style="text-align: center;"><img src="legend/VectorialParaQgis2Web2_1_2242804.png" /></td><td>22,4 - 28,0</td></tr></table>': cluster_VectorialParaQgis2Web2_1,'ConcejosAsturiasETRS89LimpioBueno<br /><table><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_35160.png" /></td><td>-35 - 16</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_16681.png" /></td><td>16 - 68</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_681192.png" /></td><td>68 - 119</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_1191713.png" /></td><td>119 - 171</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_1712224.png" /></td><td>171 - 222</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_2222745.png" /></td><td>222 - 274</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_2743256.png" /></td><td>274 - 325</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_3253777.png" /></td><td>325 - 377</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_3774288.png" /></td><td>377 - 428</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_4284809.png" /></td><td>428 - 480</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_48053110.png" /></td><td>480 - 531</td></tr><tr><td style="text-align: center;"><img src="legend/ConcejosAsturiasETRS89LimpioBueno_0_53158311.png" /></td><td>531 - 583</td></tr></table>': layer_ConcejosAsturiasETRS89LimpioBueno_0,}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
-            layer: layer_ConcejosAsturiasETRS89LimpioBueno_0,
+            layer: cluster_ConcejosAsturiasETRS89LimpioBueno_0,
             initial: false,
             hideMarkerOnCollapse: true,
             propertyName: 'Concejo'}));
         document.getElementsByClassName('search-button')[0].className +=
-         ' fa fa-binoculars';
 		map.addControl(new L.Control.Search({
-            layer: layer_ConcejosAsturiasETRS89LimpioBueno_0,
+            layer: cluster_ConcejosAsturiasETRS89LimpioBueno_0,
             initial: false,
             hideMarkerOnCollapse: true,
-            propertyName: 'NATCODE'}));
+            propertyName: 'E_min'}));
         document.getElementsByClassName('search-button')[1].className +=
          ' fa fa-binoculars';
         </script>
